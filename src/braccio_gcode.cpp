@@ -6,34 +6,44 @@ _Gcode::_Gcode() {
 	_isProcessing = false;
 	
 	_90_in_ms[0] = (int)EEPROM.read(arm_MEM_90_0) | (int)EEPROM.read(arm_MEM_90_0+1)<<8; //347;
-	_90_in_ms[0] = ((_90_in_ms[0] > 250) && (_90_in_ms[0] < 450)) ? _90_in_ms[0] : 350;
+	_90_in_ms[0] = ((_90_in_ms[0] > 80) && (_90_in_ms[0] < 800)) ? _90_in_ms[0] : 350;
 	_90_in_ms[1] = (int)EEPROM.read(arm_MEM_90_1) | (int)EEPROM.read(arm_MEM_90_1+1)<<8; //360;
-	_90_in_ms[1] = ((_90_in_ms[1] > 250) && (_90_in_ms[1] < 450)) ? _90_in_ms[1] : 350;
+	_90_in_ms[1] = ((_90_in_ms[1] > 80) && (_90_in_ms[1] < 800)) ? _90_in_ms[1] : 350;
 	_90_in_ms[2] = (int)EEPROM.read(arm_MEM_90_2) | (int)EEPROM.read(arm_MEM_90_2+1)<<8; //377;
-	_90_in_ms[2] = ((_90_in_ms[2] > 250) && (_90_in_ms[2] < 450)) ? _90_in_ms[2] : 350;
+	_90_in_ms[2] = ((_90_in_ms[2] > 80) && (_90_in_ms[2] < 800)) ? _90_in_ms[2] : 350;
 	_90_in_ms[3] = (int)EEPROM.read(arm_MEM_90_3) | (int)EEPROM.read(arm_MEM_90_3+1)<<8; //360;
-	_90_in_ms[3] = ((_90_in_ms[3] > 250) && (_90_in_ms[3] < 450)) ? _90_in_ms[3] : 350;
+	_90_in_ms[3] = ((_90_in_ms[3] > 80) && (_90_in_ms[3] < 800)) ? _90_in_ms[3] : 350;
 	_90_in_ms[4] = (int)EEPROM.read(arm_MEM_90_4) | (int)EEPROM.read(arm_MEM_90_4+1)<<8; //318;
-	_90_in_ms[4] = ((_90_in_ms[4] > 250) && (_90_in_ms[4] < 450)) ? _90_in_ms[4] : 350;
+	_90_in_ms[4] = ((_90_in_ms[4] > 80) && (_90_in_ms[4] < 800)) ? _90_in_ms[4] : 350;
 	
 	_0_in_ms[0] = (int)EEPROM.read(arm_MEM_0_0) | (int)EEPROM.read(arm_MEM_0_0+1)<<8;
-	_0_in_ms[0] = ((_0_in_ms[0] > 450) && (_0_in_ms[0] < 700)) ? _0_in_ms[0] : 580;
+	_0_in_ms[0] = ((_0_in_ms[0] > 80) && (_0_in_ms[0] < 800)) ? _0_in_ms[0] : 580;
 	_0_in_ms[1] = (int)EEPROM.read(arm_MEM_0_1) | (int)EEPROM.read(arm_MEM_0_1+1)<<8;
-	_0_in_ms[1] = ((_0_in_ms[1] > 450) && (_0_in_ms[1] < 700)) ? _0_in_ms[1] : 580;
+	_0_in_ms[1] = ((_0_in_ms[1] > 80) && (_0_in_ms[1] < 800)) ? _0_in_ms[1] : 580;
 	_0_in_ms[2] = (int)EEPROM.read(arm_MEM_0_2) | (int)EEPROM.read(arm_MEM_0_2+1)<<8;
-	_0_in_ms[2] = ((_0_in_ms[2] > 450) && (_0_in_ms[2] < 700)) ? _0_in_ms[2] : 580;
+	_0_in_ms[2] = ((_0_in_ms[2] > 80) && (_0_in_ms[2] < 800)) ? _0_in_ms[2] : 580;
 	_0_in_ms[3] = (int)EEPROM.read(arm_MEM_0_3) | (int)EEPROM.read(arm_MEM_0_3+1)<<8;
-	_0_in_ms[3] = ((_0_in_ms[3] > 450) && (_0_in_ms[3] < 700)) ? _0_in_ms[3] : 580;
+	_0_in_ms[3] = ((_0_in_ms[3] > 80) && (_0_in_ms[3] < 800)) ? _0_in_ms[3] : 580;
 	_0_in_ms[4] = (int)EEPROM.read(arm_MEM_0_4) | (int)EEPROM.read(arm_MEM_0_4+1)<<8;
-	_0_in_ms[4] = ((_0_in_ms[4] > 450) && (_0_in_ms[4] < 700)) ? _0_in_ms[4] : 580;
+	_0_in_ms[4] = ((_0_in_ms[4] > 80) && (_0_in_ms[4] < 800)) ? _0_in_ms[4] : 580;
+	
+	_10_in_ms = (int)EEPROM.read(arm_MEM_10_5) | (int)EEPROM.read(arm_MEM_10_5+1)<<8;
+	_10_in_ms = ((_10_in_ms > 80) && (_10_in_ms < 800)) ? _10_in_ms : 215;
+	
+	_73_in_ms = (int)EEPROM.read(arm_MEM_73_5) | (int)EEPROM.read(arm_MEM_73_5+1)<<8;
+	_73_in_ms = ((_73_in_ms > 80) && (_73_in_ms < 800)) ? _73_in_ms : 365;
 	
 	_arm_buffer[arm_ATTACK] = FREE_ANGLE;
 	
+	_calibrationMode = false;
+	
+#ifdef CGX_GCODE_DEBUG
 	pwm = Adafruit_PWMServoDriver();
 	
 	// TODO: test the pwm
 	pwm.begin();
 	pwm.setPWMFreq(60);
+#endif
 }
 
 void _Gcode::_calibrate90(int servo, int value) {
@@ -48,6 +58,22 @@ void _Gcode::_calibrate0(int servo, int value) {
 	_0_in_ms[servo] = value;
 	
 	int addr = arm_MEM_0_0 + servo*2;
+	EEPROM.write(addr, (byte)(value & 0xFF));
+	EEPROM.write(addr+1, (byte)((value >> 8) & 0xFF));
+}
+
+void _Gcode::_calibrate10(int value) {
+	_10_in_ms = value;
+	
+	int addr = arm_MEM_10_5;
+	EEPROM.write(addr, (byte)(value & 0xFF));
+	EEPROM.write(addr+1, (byte)((value >> 8) & 0xFF));
+}
+
+void _Gcode::_calibrate73(int value) {
+	_73_in_ms = value;
+	
+	int addr = arm_MEM_73_5;
 	EEPROM.write(addr, (byte)(value & 0xFF));
 	EEPROM.write(addr+1, (byte)((value >> 8) & 0xFF));
 }
@@ -99,8 +125,22 @@ void _Gcode::decode(String code) {
 			if (_getValue(code, 'C', _arm_buffer[arm_JOINT2])) _arm_buffer[arm_JOINT2] = _b2a(_arm_buffer[arm_JOINT2]);
 			if (_getValue(code, 'D', _arm_buffer[arm_JOINT3])) _arm_buffer[arm_JOINT3] = _b2a(_arm_buffer[arm_JOINT3]);
 			if (_getValue(code, 'E', _arm_buffer[arm_JOINT4]));
+			if (_getValue(code, 'F', _arm_buffer[arm_JOINT5]));
 			
 			_arm_buffer[arm_STATE] = arm_AVAILABLE;
+			break;
+		case 54:
+			if (_calibrationMode) {
+				float value = 0;
+				#ifdef CGX_GCODE_DEBUG
+				if (_getValue(code, 'A', value)) pwm.setPWM(0, 0, value);
+				if (_getValue(code, 'B', value)) pwm.setPWM(1, 0, value);
+				if (_getValue(code, 'C', value)) pwm.setPWM(2, 0, value);
+				if (_getValue(code, 'D', value)) pwm.setPWM(3, 0, value);
+				if (_getValue(code, 'E', value)) pwm.setPWM(4, 0, value);
+				if (_getValue(code, 'F', value)) pwm.setPWM(5, 0, value);
+				#endif
+			}
 			break;
 		}
 	} else if (_getValue(code, 'M', value)) {
@@ -113,6 +153,12 @@ void _Gcode::decode(String code) {
 			break;
 		case 101:
 			_gcode_data[gcode_GRIP] = arm_OPEN;
+			break;
+		case 103:
+			_calibrationMode = true;
+			break;
+		case 104:
+			_calibrationMode = false;
 			break;
 		case 105: // Go to 90 degrees
 			_arm_buffer[arm_JOINT0] = _b2a(90);
@@ -129,14 +175,19 @@ void _Gcode::decode(String code) {
 			_gcode_data[gcode_Y_AXIS] = 0;
 			_gcode_data[gcode_Z_AXIS] = 300;
 			
+			_gcode_data[gcode_GRIP] = arm_OPEN;
+			
 			_arm_buffer[arm_STATE] = arm_AVAILABLE;
 			break;
 		case 106:
-			if (_getValue(code, 'A', calibration)) _calibrate90(0, _b2p(0, calibration));
-			if (_getValue(code, 'B', calibration)) _calibrate90(1, _b2p(1, calibration));
-			if (_getValue(code, 'C', calibration)) _calibrate90(2, _b2p(2, calibration));
-			if (_getValue(code, 'D', calibration)) _calibrate90(3, _b2p(3, calibration));
-			if (_getValue(code, 'E', calibration)) _calibrate90(4, _b2p(4, calibration));
+			if (_calibrationMode) {
+				if (_getValue(code, 'A', calibration)) _calibrate90(0, calibration);
+				if (_getValue(code, 'B', calibration)) _calibrate90(1, calibration);
+				if (_getValue(code, 'C', calibration)) _calibrate90(2, calibration);
+				if (_getValue(code, 'D', calibration)) _calibrate90(3, calibration);
+				if (_getValue(code, 'E', calibration)) _calibrate90(4, calibration);
+				if (_getValue(code, 'F', calibration)) _calibrate10(calibration);
+			}
 			break;
 		case 107: // Go to 90 degrees
 			_arm_buffer[arm_JOINT0] = _b2a(180);
@@ -153,14 +204,19 @@ void _Gcode::decode(String code) {
 			_gcode_data[gcode_Y_AXIS] = 0;
 			_gcode_data[gcode_Z_AXIS] = 300;
 			
+			_gcode_data[gcode_GRIP] = arm_CLOSE;
+			
 			_arm_buffer[arm_STATE] = arm_AVAILABLE;
 			break;
 		case 108:
-			if (_getValue(code, 'A', calibration)) _calibrate0(0, _b2p(0, 180	- calibration));
-			if (_getValue(code, 'B', calibration)) _calibrate0(1, _b2p(1, calibration - 45));
-			if (_getValue(code, 'C', calibration)) _calibrate0(2, _b2p(2, 180	- calibration));
-			if (_getValue(code, 'D', calibration)) _calibrate0(3, _b2p(3, calibration));
-			if (_getValue(code, 'E', calibration)) _calibrate0(4, _b2p(4, calibration));
+			if (_calibrationMode) {
+				if (_getValue(code, 'A', calibration)) _calibrate0(0, _90_in_ms[0] * 2 - calibration);
+				if (_getValue(code, 'B', calibration)) _calibrate0(1, calibration * 2 - _90_in_ms[1]);
+				if (_getValue(code, 'C', calibration)) _calibrate0(2, _90_in_ms[2] * 2 - calibration);
+				if (_getValue(code, 'D', calibration)) _calibrate0(3, calibration);
+				if (_getValue(code, 'E', calibration)) _calibrate0(4, calibration);
+				if (_getValue(code, 'F', calibration)) _calibrate73(calibration);
+			}
 			break;
 		}
 	}
@@ -266,32 +322,36 @@ void _Gcode::update() {
 		_deltaT -= gcode_STEP;
 	}
 	
-	if (_arm_buffer[arm_STATE] == arm_AVAILABLE) {
-		_arm_buffer[arm_STATE] = arm_STAND_BY;
+	if (!_calibrationMode) {
+		if (_arm_buffer[arm_STATE] == arm_AVAILABLE) {
+			_arm_buffer[arm_STATE] = arm_STAND_BY;
 
-		_braccioMove(_a2b(_arm_buffer[arm_JOINT0]), 
-					 _a2b(_arm_buffer[arm_JOINT1]), 
-					 _a2b(_arm_buffer[arm_JOINT2]), 
-					 _a2b(_arm_buffer[arm_JOINT3]), 
-					 _arm_buffer[arm_JOINT4], 
-					 _arm_buffer[arm_JOINT5]); // grip in degrees (not radians)
+			_braccioMove(_a2b(_arm_buffer[arm_JOINT0]), 
+						 _a2b(_arm_buffer[arm_JOINT1]), 
+						 _a2b(_arm_buffer[arm_JOINT2]), 
+						 _a2b(_arm_buffer[arm_JOINT3]), 
+						 _arm_buffer[arm_JOINT4], 
+						 _arm_buffer[arm_JOINT5]); // grip in degrees (not radians)
 
 
-	} else if(_isProcessing) {
-		Serial.println("DONE");
-		_isProcessing = false;
+		} else if(_isProcessing) {
+			Serial.println("ok");
+			_isProcessing = false;
+		}
 	}
 
 	delay(gcode_STEP);
 }
 
 void _Gcode::_braccioMove(float base, float shoulder, float elbow, float wrist, float hand, float grip) {
+	#ifdef CGX_GCODE_DEBUG
 	pwm.setPWM(0, 0, _b2p(0, base));
 	pwm.setPWM(1, 0, _b2p(1, shoulder));
 	pwm.setPWM(2, 0, _b2p(2, elbow));
 	pwm.setPWM(3, 0, _b2p(3, wrist));
 	pwm.setPWM(4, 0, _b2p(4, hand));
 	pwm.setPWM(5, 0, _b2p(5, grip));
+	#endif
 	
 	String toSend;
 	toSend += "$0 A";
@@ -304,6 +364,8 @@ void _Gcode::_braccioMove(float base, float shoulder, float elbow, float wrist, 
 	toSend += String(wrist, 1);
 	toSend += " E";
 	toSend += String(hand, 1);
+	toSend += " F";
+	toSend += String(grip, 1);
 	Serial.println(toSend);
 	
 	toSend = "$1 X";
@@ -343,7 +405,7 @@ int _Gcode::_b2p(int servo, float degree) { // braccio to calibrated pulse
 		return (int)map(degree, 0, 90, _0_in_ms[servo], _90_in_ms[servo]);
 		break;
 	case 5:
-		return (int)map(degree, 10, 73, 215, 365);
+		return (int)map(degree, 10, 73, _10_in_ms, _73_in_ms);
 		break;
 	default:
 		return (int)map(degree, 0, 180, 565, 130);

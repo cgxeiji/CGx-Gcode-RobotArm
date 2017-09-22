@@ -40,6 +40,9 @@
 #define arm_MEM_0_3 16
 #define arm_MEM_0_4 18
 
+#define arm_MEM_10_5 20
+#define arm_MEM_73_5 22
+
 class _Gcode {
 public:
 	_Gcode();
@@ -57,7 +60,10 @@ private:
 	long _deltaT;	// delta time
 	int _90_in_ms[6]; // 90 degrees in ms for servo calibration
 	int _0_in_ms[6]; // 0 degrees in ms for servo calibration
+	int _10_in_ms;
+	int _73_in_ms;
 	bool _arm_enabled; //TODO
+	bool _calibrationMode;
 	
 	bool _isProcessing;
 	
@@ -71,6 +77,8 @@ private:
 	void _braccioMove(float base, float shoulder, float elbow, float wrist, float hand, float grip);
 	void _calibrate90(int servo, int value);
 	void _calibrate0(int servo, int value);
+	void _calibrate10(int value);
+	void _calibrate73(int value);
 	//void _checkArm();
 };
 
