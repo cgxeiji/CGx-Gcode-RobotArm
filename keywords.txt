@@ -5,6 +5,7 @@
 #######################################
 
 Gcode	KEYWORD1
+CGx_Gcode   KEYWORD1
 
 #######################################
 # Methods and Functions 
