@@ -1,6 +1,18 @@
 # CGx-Gcode-RobotArm
 Gcode decoder for Arduino for robotic arms. Works together with InverseK library.
 
+## How to use?
+1. Download the project as a .zip file.
+1. Open Arduino IDE
+1. Select `Sketch->Include Library->Add .ZIP Library...`
+1. Locate the .zip file you just downloaded
+1. Select the file and click `Open`
+1. Ready!
+
+>You can check the example sketch from:
+>>`File->Examples->CGx Gcode->CGx_Gcode_Example`
+
+
 ## Gcode Table
 ### G Codes
 Gcode | Syntax | Definition
