@@ -1,3 +1,9 @@
+/*
+  CGx_Gcode.h - Library for processing Gcode into actions of a 3-link robotic arm.
+  Created by Eiji Onchi, September 24, 2017.
+  Released into the public domain.
+*/
+
 #ifndef H_GCODE
 #define H_GCODE
 
