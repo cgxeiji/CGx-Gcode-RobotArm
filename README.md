@@ -2,14 +2,14 @@
 Gcode decoder for Arduino for robotic arms. Works together with InverseK library.
 
 ## How to use?
-1. Install the InverseK library. https://github.com/cgxeiji/CGx-InverseK
-1. If you haven't done so, install the Adafruit PWM Servo Driver Library. https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
+1. Install the [InverseK](https://github.com/cgxeiji/CGx-InverseK) library. 
+1. If you haven't done so, install the [Adafruit PWM Servo Driver](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library) library.
 1. Download the project as a .zip file.
 1. Open Arduino IDE
 1. Select `Sketch->Include Library->Add .ZIP Library...`
 1. Locate the .zip file you just downloaded (Should be named `CGx-Gcode-RobotArm-master.zip`)
 1. Select the file and click `Open`
-1. Ready!
+1. Done!
 
 
 **You can check the example sketch at:**
