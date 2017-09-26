@@ -43,7 +43,7 @@ _Gcode::_Gcode() {
 	
 	_calibrationMode = false;
 	
-#ifdef CGX_GCODE_DEBUG
+#ifndef CGX_GCODE_DEBUG
 	pwm = Adafruit_PWMServoDriver();
 	
 	// TODO: test the pwm
@@ -138,7 +138,7 @@ void _Gcode::decode(String code) {
 		case 54:
 			if (_calibrationMode) {
 				float value = 0;
-				#ifdef CGX_GCODE_DEBUG
+				#ifndef CGX_GCODE_DEBUG
 				if (_getValue(code, 'A', value)) pwm.setPWM(0, 0, value);
 				if (_getValue(code, 'B', value)) pwm.setPWM(1, 0, value);
 				if (_getValue(code, 'C', value)) pwm.setPWM(2, 0, value);
@@ -350,7 +350,7 @@ void _Gcode::update() {
 }
 
 void _Gcode::_braccioMove(float base, float shoulder, float elbow, float wrist, float hand, float grip) {
-	#ifdef CGX_GCODE_DEBUG
+	#ifndef CGX_GCODE_DEBUG
 	pwm.setPWM(0, 0, _b2p(0, base));
 	pwm.setPWM(1, 0, _b2p(1, shoulder));
 	pwm.setPWM(2, 0, _b2p(2, elbow));

@@ -1,5 +1,5 @@
 // Enable this definition if you don't have an Adafruit 16-Channel Servo Driver connected to the Arduino/Teensy
-#define CGX_GCODE_DEBUG
+//#define CGX_GCODE_DEBUG
 
 #include <InverseK.h>
 #include <CGx_Gcode.h>
