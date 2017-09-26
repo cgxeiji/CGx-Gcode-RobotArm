@@ -54,6 +54,7 @@ public:
 	_Gcode();
 	void decode(String code);
 	void update();
+	void begin(bool debug=false);
 	
 private:
 	float _arm_buffer[8];	// arm buffer
@@ -72,6 +73,7 @@ private:
 	bool _calibrationMode;
 	
 	bool _isProcessing;
+	bool _debugMode;
 	
 	Adafruit_PWMServoDriver pwm;
 	

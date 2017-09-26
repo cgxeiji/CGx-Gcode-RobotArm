@@ -42,14 +42,17 @@ _Gcode::_Gcode() {
 	_arm_buffer[arm_ATTACK] = FREE_ANGLE;
 	
 	_calibrationMode = false;
-	
-#ifndef CGX_GCODE_DEBUG
-	pwm = Adafruit_PWMServoDriver();
-	
-	// TODO: test the pwm
-	pwm.begin();
-	pwm.setPWMFreq(60);
-#endif
+}
+
+void _Gcode::begin(bool debug) {
+	_debugMode = debug;
+	if (!_debugMode) {
+		pwm = Adafruit_PWMServoDriver();
+		
+		// TODO: test the pwm
+		pwm.begin();
+		pwm.setPWMFreq(60);
+	}
 }
 
 void _Gcode::_calibrate90(int servo, int value) {
@@ -137,15 +140,15 @@ void _Gcode::decode(String code) {
 			break;
 		case 54:
 			if (_calibrationMode) {
-				float value = 0;
-				#ifndef CGX_GCODE_DEBUG
-				if (_getValue(code, 'A', value)) pwm.setPWM(0, 0, value);
-				if (_getValue(code, 'B', value)) pwm.setPWM(1, 0, value);
-				if (_getValue(code, 'C', value)) pwm.setPWM(2, 0, value);
-				if (_getValue(code, 'D', value)) pwm.setPWM(3, 0, value);
-				if (_getValue(code, 'E', value)) pwm.setPWM(4, 0, value);
-				if (_getValue(code, 'F', value)) pwm.setPWM(5, 0, value);
-				#endif
+					float value = 0;
+				if (!_debugMode) {
+					if (_getValue(code, 'A', value)) pwm.setPWM(0, 0, value);
+					if (_getValue(code, 'B', value)) pwm.setPWM(1, 0, value);
+					if (_getValue(code, 'C', value)) pwm.setPWM(2, 0, value);
+					if (_getValue(code, 'D', value)) pwm.setPWM(3, 0, value);
+					if (_getValue(code, 'E', value)) pwm.setPWM(4, 0, value);
+					if (_getValue(code, 'F', value)) pwm.setPWM(5, 0, value);
+				}
 			}
 			break;
 		}
@@ -350,14 +353,14 @@ void _Gcode::update() {
 }
 
 void _Gcode::_braccioMove(float base, float shoulder, float elbow, float wrist, float hand, float grip) {
-	#ifndef CGX_GCODE_DEBUG
-	pwm.setPWM(0, 0, _b2p(0, base));
-	pwm.setPWM(1, 0, _b2p(1, shoulder));
-	pwm.setPWM(2, 0, _b2p(2, elbow));
-	pwm.setPWM(3, 0, _b2p(3, wrist));
-	pwm.setPWM(4, 0, _b2p(4, hand));
-	pwm.setPWM(5, 0, _b2p(5, grip));
-	#endif
+	if (!_debugMode) {
+		pwm.setPWM(0, 0, _b2p(0, base));
+		pwm.setPWM(1, 0, _b2p(1, shoulder));
+		pwm.setPWM(2, 0, _b2p(2, elbow));
+		pwm.setPWM(3, 0, _b2p(3, wrist));
+		pwm.setPWM(4, 0, _b2p(4, hand));
+		pwm.setPWM(5, 0, _b2p(5, grip));
+	}
 	
 	String toSend;
 	toSend += "$0 A";

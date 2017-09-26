@@ -1,6 +1,3 @@
-// Enable this definition if you don't have an Adafruit 16-Channel Servo Driver connected to the Arduino/Teensy
-//#define CGX_GCODE_DEBUG
-
 #include <InverseK.h>
 #include <CGx_Gcode.h>
 
@@ -23,6 +20,9 @@ void setup() {
   InverseK.attach(base, upperarm, forearm, hand);
 
   Serial.begin(115200);
+  
+  // Initialize the Gcode Interpreter
+  Gcode.begin(); // Use Gcode.begin(true); if you don't have an Adafruit 16-Channel Servo Driver connected to the Arduino/Teensy
   
   // Initialize the arm with the upright position
   Gcode.decode("M105");
