@@ -19,6 +19,7 @@ Gcode decoder for Arduino for robotic arms. Works together with InverseK library
 
 ## Wiring
 You should connect each **servo** to the **servo driver** according to this table:
+
 Servo Position | Servo Driver
 -------------- | :----------: 
 Base | #0
