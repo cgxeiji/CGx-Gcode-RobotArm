@@ -15,8 +15,7 @@ Gcode decoder for Arduino for robotic arms. Works together with InverseK library
 **You can check the example sketch at:**
 `File->Examples->CGx Gcode->CGx_Gcode_Example`
 
-comment out the first line of the example if you want to test without the hardware!
-
+~~comment out the first line of the example if you want to test without the hardware!~~ (This feature is currently under fix)
 
 
 
