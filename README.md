@@ -17,7 +17,16 @@ Gcode decoder for Arduino for robotic arms. Works together with InverseK library
 
 ~~comment out the first line of the example if you want to test without the hardware!~~ (This feature is currently under fix)
 
-
+## Wiring
+You should connect each **servo** to the **servo driver** according to this table:
+Servo Position | Servo Driver
+-------------- | :----------: 
+Base | #0
+Shoulder | #1
+Elbow | #2
+Wrist Pitch | #3
+Wrist Roll | #4
+Grip | #5
 
 # Gcode Table
 ## G Codes
