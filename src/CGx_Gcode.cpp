@@ -5,6 +5,7 @@
 */
 
 #include "CGx_Gcode.h"
+//#define CGX_GCODE_DEBUG
 
 _Gcode Gcode;
 
@@ -139,13 +140,40 @@ void _Gcode::decode(String code) {
 			if (_calibrationMode) {
 				float value = 0;
 				#ifndef CGX_GCODE_DEBUG
-				if (_getValue(code, 'A', value)) pwm.setPWM(0, 0, value);
-				if (_getValue(code, 'B', value)) pwm.setPWM(1, 0, value);
-				if (_getValue(code, 'C', value)) pwm.setPWM(2, 0, value);
-				if (_getValue(code, 'D', value)) pwm.setPWM(3, 0, value);
-				if (_getValue(code, 'E', value)) pwm.setPWM(4, 0, value);
-				if (_getValue(code, 'F', value)) pwm.setPWM(5, 0, value);
+				if (_getValue(code, 'A', value)){
+					pwm.setPWM(0, 0, value);
+					Serial.print(" A:");
+					Serial.print(value);
+				}
+				if (_getValue(code, 'B', value)){
+					pwm.setPWM(1, 0, value);
+					Serial.print(" A:");
+					Serial.print(value);
+				}
+				if (_getValue(code, 'C', value)){
+					pwm.setPWM(2, 0, value);
+					Serial.print(" A:");
+					Serial.print(value);
+				}
+				if (_getValue(code, 'D', value)){
+					pwm.setPWM(3, 0, value);
+					Serial.print(" A:");
+					Serial.print(value);
+				}
+				if (_getValue(code, 'E', value)){
+					pwm.setPWM(4, 0, value);
+					Serial.print(" A:");
+					Serial.print(value);
+				}
+				if (_getValue(code, 'F', value)){
+					pwm.setPWM(5, 0, value);
+					Serial.print(" A:");
+					Serial.print(value);
+				}
 				#endif
+
+				Serial.println(" (calibration)");
+				Serial.println("ok");
 			}
 			break;
 		}
@@ -162,9 +190,13 @@ void _Gcode::decode(String code) {
 			break;
 		case 103:
 			_calibrationMode = true;
+			Serial.println("Calibration mode: Enabled");
+			Serial.println("ok");
 			break;
 		case 104:
 			_calibrationMode = false;
+			Serial.println("Calibration mode: Disabled");
+			Serial.println("ok");
 			break;
 		case 105: // Go to 90 degrees
 			_arm_buffer[arm_JOINT0] = _b2a(90);
@@ -184,6 +216,9 @@ void _Gcode::decode(String code) {
 			_gcode_data[gcode_GRIP] = arm_OPEN;
 			
 			_arm_buffer[arm_STATE] = arm_AVAILABLE;
+
+			Serial.println("Going to 1st position!");
+			Serial.println("ok");
 			break;
 		case 106:
 			if (_calibrationMode) {
@@ -193,6 +228,8 @@ void _Gcode::decode(String code) {
 				if (_getValue(code, 'D', calibration)) _calibrate90(3, calibration);
 				if (_getValue(code, 'E', calibration)) _calibrate90(4, calibration);
 				if (_getValue(code, 'F', calibration)) _calibrate10(calibration);
+				Serial.println("Calibration of 1st position saved!");
+				Serial.println("ok");
 			}
 			break;
 		case 107: // Go to 90 degrees
@@ -213,6 +250,8 @@ void _Gcode::decode(String code) {
 			_gcode_data[gcode_GRIP] = arm_CLOSE;
 			
 			_arm_buffer[arm_STATE] = arm_AVAILABLE;
+			Serial.println("Going to 2nd position!");
+			Serial.println("ok");
 			break;
 		case 108:
 			if (_calibrationMode) {
@@ -222,6 +261,8 @@ void _Gcode::decode(String code) {
 				if (_getValue(code, 'D', calibration)) _calibrate0(3, calibration);
 				if (_getValue(code, 'E', calibration)) _calibrate0(4, calibration);
 				if (_getValue(code, 'F', calibration)) _calibrate73(calibration);
+				Serial.println("Calibration of 2nd position saved!");
+				Serial.println("ok");
 			}
 			break;
 		}
